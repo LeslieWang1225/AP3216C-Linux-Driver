@@ -1,0 +1,30 @@
+/* 放入 arch/arm/boot/dts，在实际启动的板级 DTS 末尾包含。 */
+/* GPIO1_IO01 与 GBC_KEY 共用；启用前应在板级 DTS 停用该按键节点。 */
+/* I2C1 的 0x1e 地址只能保留一个设备节点。 */
+#include "imx6ul-pinfunc.h"
+#include <dt-bindings/interrupt-controller/irq.h>
+
+&iomuxc {
+	ap3216c_pins {
+		pinctrl_ap3216c: ap3216cgrp {
+			fsl,pins = <
+				MX6UL_PAD_GPIO1_IO01__GPIO1_IO01 0x1F080
+			>;
+		};
+	};
+};
+
+&i2c1 {
+	status = "okay";
+
+	ap3216c@1e {
+		compatible = "lite-on,ap3216c";
+		reg = <0x1e>;
+		label = "ap3216c-proximity";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ap3216c>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
+		status = "okay";
+	};
+};
