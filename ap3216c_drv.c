@@ -37,7 +37,8 @@
 #define MODE_PSALS 0x03
 #define WT_INTV_MIN 0x00
 
-struct ap3216c_dev {
+struct ap3216c_dev
+{
 	const char *name;
 	struct input_dev *input_dev;
 	struct i2c_client *client;
@@ -138,9 +139,7 @@ static ssize_t ps_threshold_low_show(struct device *dev, struct device_attribute
 	return sprintf(buf, "%d\n", val);
 }
 
-static ssize_t ps_threshold_low_store(struct device *dev,
-				      struct device_attribute *attr,
-				      const char *buf, size_t count)
+static ssize_t ps_threshold_low_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
 	struct ap3216c_dev *pdata = (struct ap3216c_dev *)dev->driver_data;
 	int val = 0;
@@ -691,16 +690,14 @@ static const struct dev_pm_ops ap3216c_pm_ops = {
 };
 
 static const struct of_device_id ap3216c_match_table[] = {
-	{
-		.compatible = "lite-on,ap3216c",
-	},
-	{ },
+	{ .compatible = "lite-on,ap3216c", },
+	{ /* Sentinel */ },
 };
 MODULE_DEVICE_TABLE(of, ap3216c_match_table);
 
 static const struct i2c_device_id ap3216c_id_table[] = {
 	{ "ap3216c", 0 },
-	{ },
+	{ /* Sentinel */ },
 };
 MODULE_DEVICE_TABLE(i2c, ap3216c_id_table);
 
@@ -716,6 +713,7 @@ static struct i2c_driver ap3216c_drv = {
 };
 
 module_i2c_driver(ap3216c_drv);
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Leslie Wang");
 MODULE_DESCRIPTION("AP3216C proximity and ambient light driver");

@@ -83,13 +83,12 @@ static int find_input_device(char *path, size_t size)
 /* EVIOCGSW 返回位图，可在首次中断前读取 input 核心保存的状态。 */
 static int read_current_state(int fd, int *near)
 {
-	unsigned long switches[SW_BITMAP_WORDS] = {0};
+	unsigned long switches[SW_BITMAP_WORDS] = { 0 };
 
 	if (ioctl(fd, EVIOCGSW(sizeof(switches)), switches) < 0)
 		return -1;
 
-	*near = !!(switches[SW_FRONT_PROXIMITY / BITS_PER_LONG] &
-		    (1UL << (SW_FRONT_PROXIMITY % BITS_PER_LONG)));
+	*near = !!(switches[SW_FRONT_PROXIMITY / BITS_PER_LONG] & (1UL << (SW_FRONT_PROXIMITY % BITS_PER_LONG)));
 	return 0;
 }
 
@@ -150,9 +149,7 @@ static int monitor_events(int fd)
 			continue;
 
 		state = near;
-		printf("[%ld.%06ld] Proximity: %s (%d)\n",
-		       (long)event.time.tv_sec, (long)event.time.tv_usec,
-		       near ? "NEAR" : "FAR", near);
+		printf("[%ld.%06ld] Proximity: %s (%d)\n", (long)event.time.tv_sec, (long)event.time.tv_usec, near ? "NEAR" : "FAR", near);
 		fflush(stdout);
 	}
 
